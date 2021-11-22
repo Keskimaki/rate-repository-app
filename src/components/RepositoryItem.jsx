@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ repository }) => {
-  //console.log(repository.item);
   return (
     <View>
       <ItemTop repository={repository.item}/>
