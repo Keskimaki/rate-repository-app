@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import Text from './Text';
 import theme from '../theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,10 +21,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppBarTab = ({ text }) => (
+const AppBarTab = ({ text, route }) => (
   <View style={styles.tab}>
     <Pressable>
-      <Text style={styles.text}>{text}</Text>
+      <Link to={route} ><Text style={styles.text}>{text}</Text></Link>
     </Pressable>
   </View>
 );
@@ -31,7 +32,8 @@ const AppBarTab = ({ text }) => (
 const AppBar = () => {
   return (
   <View style={styles.container}>
-    <AppBarTab text="Repositories"/>
+    <AppBarTab text="Repositories" route="/" />
+    <AppBarTab text="Sign in" route="/login" />
   </View>
   );
 };
