@@ -8,6 +8,7 @@ import Text from './Text';
 const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
+    color: '#d73a4a'
   },
   input: {
     borderRadius: 3,
@@ -18,6 +19,9 @@ const styles = StyleSheet.create({
     borderColor: '#586069',
     marginTop: 10,
     padding: 10
+  },
+  inputError: {
+    borderColor: '#d73a4a',
   }
 });
 
@@ -32,7 +36,7 @@ const FormikTextInput = ({ name, ...props }) => {
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
-        style={styles.input}
+        style={[styles.input, showError ? styles.inputError : null ]}
         {...props}
       />
       {showError && <Text style={styles.errorText}>{meta.error}</Text>}
