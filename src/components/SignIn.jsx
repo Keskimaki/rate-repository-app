@@ -4,7 +4,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import Text from './Text';
 import FormikTextInput from './FormikTextInput';
-
 import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
@@ -58,7 +57,7 @@ const SignIn = () => {
 
     try {
       const { data } = await signIn({ username, password });
-      console.log(data);
+      console.log(data.authorize.accessToken);
     } catch (e) {
       console.log(e);
     }
