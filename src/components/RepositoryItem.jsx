@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: theme.colors.repositoryItem
+    backgroundColor: theme.colors.repositoryItem,
   },
   image: {
     width: 50,
@@ -16,7 +16,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   text: {
-    paddingLeft: 15
+    paddingLeft: 15,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   language: {
     backgroundColor: '#0366d6',
