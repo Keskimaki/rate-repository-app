@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   language: {
     backgroundColor: '#0366d6',
     borderRadius: 5,
-    padding: 5
+    padding: 5,
+    height: 30
   },
   bottomItem: {
     display: 'flex',
@@ -47,7 +48,7 @@ const ItemTop = ({ repository }) => (
     <Image style={styles.image} source={{ uri : repository.ownerAvatarUrl }} />
     <Text style={styles.text}>
       <Text fontWeight="bold">{repository.fullName} {'\n'}</Text>
-      <Text color="textSecondary">{repository.description} {'\n'}</Text>
+      <Text color="textSecondary" >{repository.description} {'\n'}</Text>
       <View style={styles.language}>
         <Text style={{color: '#FFF'}}>{repository.language} {'\n'}</Text>
       </View>
