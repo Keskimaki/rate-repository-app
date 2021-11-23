@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     backgroundColor: theme.colors.repositoryItem,
     textAlign: 'center',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    marginTop: -1,
   }
 });
 
@@ -58,20 +59,25 @@ const ItemTop = ({ repository }) => (
   </View>
 );
 
-const BottomItems = ({ repository }) => (
-  <View style={styles.bottomItem}>
-    <BottomItem data={repository.stargazersCount} text="Stars" />
-    <BottomItem data={repository.forksCount} text="Forks" />
-    <BottomItem data={repository.reviewCount} text="Reviews" />
-    <BottomItem data={repository.ratingAverage} text="Rating" />
-  </View>
-);
+const BottomItems = ({ repository }) => {
+  return (
+    <View style={styles.bottomItem}>
+      <BottomItem data={repository.stargazersCount} text="Stars" />
+      <BottomItem data={repository.forksCount} text="Forks" />
+      <BottomItem data={repository.reviewCount} text="Reviews" />
+      <BottomItem data={repository.ratingAverage} text="Rating" />
+    </View>
+  );
+};
 
-const BottomItem = ({ data, text }) => (
-  <View>
-    <Text fontWeight="bold">{data} </Text>
-    <Text color="textSecondary">{text}</Text>
+const BottomItem = ({ data, text }) => {
+  const formatNumber = (num) => num > 999 ? (num/1000).toFixed(1) + 'K' : num;
+  return (
+    <View style={{alignItems: 'center'}}>
+      <Text fontWeight="bold">{formatNumber(data)} </Text>
+      <Text color="textSecondary">{text}</Text>
   </View>
-);
+  );
+};
 
 export default RepositoryItem;
