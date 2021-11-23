@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
-
 import { useQuery } from '@apollo/client';
 import { GET_REPOSITORIES } from '../qraphql/queries';
 import Text from './Text';
