@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import Text from './Text';
 import theme from '../theme';
-import { Link, Redirect } from 'react-router-native';
+import { Link } from 'react-router-native';
 import { useQuery } from '@apollo/client';
 import { CHECK_USER } from '../qraphql/queries';
 
