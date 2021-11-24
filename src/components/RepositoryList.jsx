@@ -23,7 +23,13 @@ const RepositoryList = () => {
     return <Text>Loading...</Text>;
   }
 
-  const repositoryNodes = repositories.data.repositories.edges.map(edge => edge.node);
+  return (
+    <RepositoryListContainer repositories={repositories.data.repositories} />
+  );
+};
+
+export const RepositoryListContainer = ({ repositories }) => {
+  const repositoryNodes = repositories.edges.map(edge => edge.node);
 
   const renderItem = (repository) => (
     <RepositoryItem repository={repository} />

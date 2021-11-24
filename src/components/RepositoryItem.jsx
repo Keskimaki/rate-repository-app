@@ -50,10 +50,10 @@ const ItemTop = ({ repository }) => (
   <View style={styles.container}>
     <Image style={styles.image} source={{ uri : repository.ownerAvatarUrl }} />
     <Text style={styles.text}>
-      <Text fontWeight="bold">{repository.fullName} {'\n'}</Text>
-      <Text color="textSecondary" >{repository.description} {'\n'}</Text>
+      <Text fontWeight="bold" testID="name">{repository.fullName} {'\n'}</Text>
+      <Text color="textSecondary" testID="description">{repository.description} {'\n'}</Text>
       <View style={styles.language}>
-        <Text style={{color: '#FFF'}}>{repository.language} {'\n'}</Text>
+        <Text style={{color: '#FFF'}} testID="language">{repository.language} {'\n'}</Text>
       </View>
     </Text>
   </View>
@@ -62,19 +62,19 @@ const ItemTop = ({ repository }) => (
 const BottomItems = ({ repository }) => {
   return (
     <View style={styles.bottomItem}>
-      <BottomItem data={repository.stargazersCount} text="Stars" />
-      <BottomItem data={repository.forksCount} text="Forks" />
-      <BottomItem data={repository.reviewCount} text="Reviews" />
-      <BottomItem data={repository.ratingAverage} text="Rating" />
+      <BottomItem data={repository.stargazersCount} text="Stars" testID="stars" />
+      <BottomItem data={repository.forksCount} text="Forks" testID="forks" />
+      <BottomItem data={repository.reviewCount} text="Reviews" testID="reviews" />
+      <BottomItem data={repository.ratingAverage} text="Rating" testID="rating" />
     </View>
   );
 };
 
-const BottomItem = ({ data, text }) => {
+const BottomItem = ({ data, text, testID }) => {
   const formatNumber = (num) => num > 999 ? (num/1000).toFixed(1) + 'K' : num;
   return (
     <View style={{alignItems: 'center'}}>
-      <Text fontWeight="bold">{formatNumber(data)} </Text>
+      <Text fontWeight="bold" testID={testID}>{formatNumber(data)} </Text>
       <Text color="textSecondary">{text}</Text>
   </View>
   );
