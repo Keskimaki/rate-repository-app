@@ -77,7 +77,7 @@ export const SignInContainer = ({ onSubmit }) => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}>
       {({ handleSubmit }) => <LoginForm onSubmit={handleSubmit} />}
-  </Formik>  
+    </Formik>  
   );
 };
 

@@ -33,7 +33,10 @@ const styles = StyleSheet.create({
 
 const RepositoryDetails = () => {
   const { id } = useParams();
-  const repository = useQuery(GET_REPOSITORY, {variables: { id } });
+  const repository = useQuery(GET_REPOSITORY, {
+    variables: { id },
+    fetchPolicy: 'cache-and-network'
+  });
 
   if (repository.loading) {
     return <Text>Loading...</Text>;
