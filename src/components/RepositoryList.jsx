@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, TextInput } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import { useQuery } from '@apollo/client';
 import { Picker } from '@react-native-picker/picker';
+import { useDebounce } from 'use-debounce/lib';
 import { GET_REPOSITORIES } from '../qraphql/queries';
 import Text from './Text';
 
@@ -10,6 +11,18 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  filter: {
+    borderRadius: 5,
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 50,
+    backgroundColor: '#FFF'
+  }
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
@@ -17,10 +30,12 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const RepositoryList = () => {
   const [sorting, setSorting] = useState(['CREATED_AT', 'DESC']);
   const [selected, setSelected] = useState();
+  const [filter, setFilter] = useState('');
+  const [value] = useDebounce(filter, 500);
 
   const repositories = useQuery(GET_REPOSITORIES, {
     variables: { 
-      searchKeyword: '',
+      searchKeyword: value,
       orderBy: sorting[0],
       orderDirection: sorting[1]
     },
@@ -37,11 +52,13 @@ const RepositoryList = () => {
       setSorting={setSorting} 
       selected={selected}
       setSelected={setSelected}
+      filter={filter}
+      setFilter={setFilter}
     />
   );
 };
 
-export const RepositoryListContainer = ({ repositories, setSorting, selected, setSelected }) => {
+export const RepositoryListContainer = ({ repositories, setSorting, selected, setSelected, setFilter, filter }) => {
   const repositoryNodes = repositories.edges.map(edge => edge.node);
   const renderItem = (repository) => (
     <RepositoryItem repository={repository} />
@@ -52,7 +69,12 @@ export const RepositoryListContainer = ({ repositories, setSorting, selected, se
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={renderItem}
-      ListHeaderComponent={() => <SelectComponent setSorting={setSorting} selected={selected} setSelected={setSelected} />}
+      ListHeaderComponent={() => 
+        <View>
+          <TextInput style={styles.filter} value={filter} onChangeText={setFilter} placeholder="search" />
+          <SelectComponent setSorting={setSorting} selected={selected} setSelected={setSelected} />
+        </View>
+    }
     />
   );
 };
