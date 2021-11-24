@@ -7,6 +7,7 @@ import { Route, Switch, Redirect } from 'react-router-native';
 import SignIn from './SignIn';
 import RepositoryDetails from './RepositoryDetails';
 import CreateReview from './CreateReview';
+import CreateUser from './CreateUser';
 
 
 const styles = StyleSheet.create({
@@ -30,6 +31,9 @@ const Main = () => {
         </Route>
         <Route path="/review" exact>
           <CreateReview />
+        </Route>
+        <Route>
+          <CreateUser />
         </Route>
         <Route path="/:id" >
           <RepositoryDetails />
