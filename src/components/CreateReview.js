@@ -57,7 +57,7 @@ const LoginForm = ({ onSubmit }) => {
 
 const CreateReview = () => {
   const [incorrect, setIncorrect] = useState(false);
-  const [mutate, error] = useMutation(CREATE_REVIEW);
+  const [mutate] = useMutation(CREATE_REVIEW);
   const history = useHistory();
 
   const initialValues = {
