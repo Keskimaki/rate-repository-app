@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Pressable, Linking } from "react-native";
+import { useHistory } from "react-router";
 import Text from "./Text";
 import theme from "../theme";
 
@@ -34,15 +35,32 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'space-evenly',
     marginTop: -1,
+  },
+  button: {
+    borderRadius: 3,
+    height: 50,
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0366d6',
+    marginTop: 10
   }
 });
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryItem = ({ repository, detailed = false }) => {
+  let repositoryData;
+  if (detailed) {
+    repositoryData = repository;
+  } else {
+    repositoryData = repository.item;
+  }
+  const history = useHistory();
   return (
-    <View>
-      <ItemTop repository={repository.item}/>
-      <BottomItems repository={repository.item}/>
-    </View>
+    <Pressable onPress={() => history.push(`/${repositoryData.id}`)}>
+      <ItemTop repository={repositoryData}/>
+      <BottomItems repository={repositoryData}/>
+      {detailed && <GitHubButton url={repositoryData.url} /> }
+    </Pressable>
   );
 };
 
@@ -77,6 +95,16 @@ const BottomItem = ({ data, text, testID }) => {
       <Text fontWeight="bold" testID={testID}>{formatNumber(data)} </Text>
       <Text color="textSecondary">{text}</Text>
   </View>
+  );
+};
+
+const GitHubButton = ({ url }) => {
+  return (
+    <View style={styles.bottomItem}>
+      <Pressable style={styles.button} onPress={() => Linking.openURL(url)}>
+        <Text style={{ color: '#FFF' }}>Open in GitHub</Text>
+      </Pressable>
+    </View>
   );
 };
 
