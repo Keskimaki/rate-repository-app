@@ -73,3 +73,27 @@ export const GET_REPOSITORY = gql`
     }
   }
 `;
+
+export const GET_USER_REVIEWS = gql`
+  query {
+    authorizedUser {
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            repositoryId
+            user {
+              username
+            }
+            repository {
+              fullName
+            }
+          }
+        }
+      }
+    }
+  }
+`;

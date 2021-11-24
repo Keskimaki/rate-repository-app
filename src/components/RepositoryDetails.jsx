@@ -67,13 +67,13 @@ const RepositoryDetails = () => {
   );
 };
 
-const ReviewItem = ({ review }) => {
+export const ReviewItem = ({ review, userReviews = false }) => {
   const parseDate = date => date.substring(0, date.indexOf('T')).split('-').reverse().join('.');
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row'}}>
         <View>
-          <Text fontWeight="bold">{review.user.username}</Text>
+          {userReviews ? <Text fontWeight="bold">{review.repository.fullName}</Text> : <Text fontWeight="bold">{review.user.username}</Text>}
           <Text color="textSecondary">{parseDate(review.createdAt)}</Text>
         </View>
         <Text style={styles.rating} fontWeight="bold">{review.rating}</Text>

@@ -6,7 +6,7 @@ import theme from '../theme';
 import { Link } from 'react-router-native';
 import { useQuery } from '@apollo/client';
 import { CHECK_USER } from '../qraphql/queries';
-
+import { useHistory } from 'react-router';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client';
 
@@ -35,12 +35,14 @@ const AppBarTab = ({ text, route }) => (
 );
 
 const Logout = () => {
+  const history = useHistory();
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
 
   const handleLogout = async () => {
     authStorage.removeAccessToken();
     apolloClient.resetStore();
+    history.push('/');
   };
   return (
     <View style={styles.tab}>
@@ -65,6 +67,7 @@ const AppBar = () => {
       {loggedIn.data.authorizedUser 
         ? <>
           <AppBarTab text="Create a review" route="/review" />
+          <AppBarTab text="My reviews" route="/reviews" />
           <Logout />
         </>
         : 
