@@ -33,18 +33,38 @@ const RepositoryList = () => {
   const [filter, setFilter] = useState('');
   const [value] = useDebounce(filter, 500);
 
+  const variables = {
+    searchKeyword: value,
+    orderBy: sorting[0],
+    orderDirection: sorting[1],
+    first: 8
+  };
+
   const repositories = useQuery(GET_REPOSITORIES, {
-    variables: { 
-      searchKeyword: value,
-      orderBy: sorting[0],
-      orderDirection: sorting[1]
-    },
+    variables,
     fetchPolicy: 'cache-and-network'
   });
 
   if (repositories.loading) {
     return <Text>Loading...</Text>;
   }
+
+  const fetchMore = repositories.fetchMore;
+
+  const handleFetchMore = () => {
+    const canFetchMore = repositories.data?.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+    fetchMore({
+      variables: {
+        after: repositories.data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
 
   return (
     <RepositoryListContainer 
@@ -54,21 +74,28 @@ const RepositoryList = () => {
       setSelected={setSelected}
       filter={filter}
       setFilter={setFilter}
+      handleFetchMore={handleFetchMore}
     />
   );
 };
 
-export const RepositoryListContainer = ({ repositories, setSorting, selected, setSelected, setFilter, filter }) => {
+export const RepositoryListContainer = ({ repositories, setSorting, selected, setSelected, setFilter, filter, handleFetchMore }) => {
   const repositoryNodes = repositories.edges.map(edge => edge.node);
   const renderItem = (repository) => (
     <RepositoryItem repository={repository} />
   );
+
+  const onEndReach = () => {
+    handleFetchMore();
+  };
 
   return (
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={renderItem}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={() => 
         <View>
           <TextInput style={styles.filter} value={filter} onChangeText={setFilter} placeholder="search" />

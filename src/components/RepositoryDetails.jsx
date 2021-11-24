@@ -33,8 +33,12 @@ const styles = StyleSheet.create({
 
 const RepositoryDetails = () => {
   const { id } = useParams();
+  const variables = {
+    id,
+    first: 5
+  };
   const repository = useQuery(GET_REPOSITORY, {
-    variables: { id },
+    variables,
     fetchPolicy: 'cache-and-network'
   });
 
@@ -42,10 +46,23 @@ const RepositoryDetails = () => {
     return <Text>Loading...</Text>;
   }
 
+  const fetchMore = repository.fetchMore;
+  const handleFetchMore = () => {
+    if (!repository?.data.repository.reviews.pageInfo.hasNextPage) {
+      return;
+    }
+    fetchMore({
+      variables: {
+        after: repository.data.repository.reviews.pageInfo.endCursor,
+        ...variables
+      }
+    });
+  };
+
   return (
     <View>
       <RepositoryItem repository={repository.data.repository} detailed={true} />
-      <ReviewList reviews={repository.data.repository.reviews.edges} />
+      <ReviewList reviews={repository.data.repository.reviews.edges} handleFetchMore={handleFetchMore} />
     </View>
   );
 };
@@ -66,7 +83,7 @@ const ReviewItem = ({ review }) => {
   );
 };
 
-const ReviewList = ( {reviews} ) => {
+const ReviewList = ( {reviews, handleFetchMore} ) => {
   const reviewNodes = reviews.map(edge => edge.node);
 
   const ItemSeparator = () => <View style={styles.separator} />;
@@ -75,12 +92,18 @@ const ReviewList = ( {reviews} ) => {
     <ReviewItem review={review.item} />
   );
 
+  const onEndReach = () => {
+    handleFetchMore();
+  };
+
   return (
     <FlatList
       data={reviewNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={renderItem}
       ListHeaderComponent={() => <ItemSeparator />}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
   />
   );
 };

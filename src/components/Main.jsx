@@ -32,7 +32,7 @@ const Main = () => {
         <Route path="/review" exact>
           <CreateReview />
         </Route>
-        <Route>
+        <Route path="/user" exact>
           <CreateUser />
         </Route>
         <Route path="/:id" >
